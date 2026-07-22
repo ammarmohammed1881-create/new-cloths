@@ -15,7 +15,10 @@ export function AdminOverview(){return <DashboardPage title="Platform control" s
 export function StaffOverview(){return <DashboardPage title="Authorized staff workspace" subtitle="Only modules and actions assigned by the administrator are visible in this workspace."><div className="permission-banner"><ShieldCheck/><div><strong>Role: Operations & Review Moderator</strong><span>Permissions: dashboard, assigned orders, product review, support, review moderation, notifications</span></div><button>View permission details</button></div><div className="metric-grid"><MetricCard label="Assigned orders" value="24" change="8 due within 2 hours" icon={ClipboardList}/><MetricCard label="Review queue" value="17" change="5 reported by users" icon={Star}/><MetricCard label="Support tickets" value="09" change="3 high priority" icon={MessageSquare}/><MetricCard label="Tasks completed" value="38" change="Current workload" icon={CheckCircle2}/></div><div className="dash-grid two"><RecentOrders/><ChartCard title="Task progress" subtitle="Assigned queue"><div className="task-list">{[["Review reported customer images",72],["Validate provider product updates",54],["Resolve delivery support tickets",81],["Review pending payment issues",36]].map(([name,value])=><div key={String(name)}><div><span>{String(name)}</span><strong>{Number(value)}%</strong></div><i><b style={{width:`${value}%`}}/></i></div>)}</div></ChartCard></div></DashboardPage>}
 
 export function DashboardModulePage(){
- const location=useLocation(); const segments=location.pathname.split("/").filter(Boolean); const role=segments[0]; const module=segments[1]??"overview"; const title=module.replaceAll("-"," ").replace(/\b\w/g,x=>x.toUpperCase());
+ const location=useLocation(); const segments=location.pathname.split("/").filter(Boolean); const role=segments[0]; const module=segments[1]??"overview"; const title = module
+  .split("-")
+  .join(" ")
+  .replace(/\b\w/g, (x: string) => x.toUpperCase());
  if(module==="products") return <ProductManagement role={role}/>;
  if(module==="orders") return <OrderManagement role={role}/>;
  if(module==="staff") return <StaffManagement/>;
